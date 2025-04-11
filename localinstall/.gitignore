@@ -1,0 +1,6 @@
+kernelci
+config/out/*
+.sudo_as_admin_successful
+.cache
+.local
+.docker
