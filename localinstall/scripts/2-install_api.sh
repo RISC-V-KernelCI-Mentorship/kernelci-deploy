@@ -6,6 +6,12 @@ cd ..
 
 set -e
 
+cd ..
+
+. ./config/main.cfg
+
+set -e
+
 # i am groot?
 if [ $(id -u) -ne 0 ]; then
     SUDO=sudo
