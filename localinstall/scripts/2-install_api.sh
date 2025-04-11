@@ -1,21 +1,10 @@
-#!/bin/sh
-. ./main.cfg
+#!/bin/bash
 
-function fail_with_error() {
-    echo "ERROR: $1"
-    exit 1
-}
+cd ..
+
+. ./config/main.cfg
 
 set -e
-trap 'fail_with_error "Command failed at line $LINENO"' ERR
-
-function fail_with_error() {
-    echo "ERROR: $1"
-    exit 1
-}
-
-set -e
-trap 'fail_with_error "Command failed at line $LINENO"' ERR
 
 # i am groot?
 if [ $(id -u) -ne 0 ]; then
@@ -24,9 +13,9 @@ else
     SUDO=
 fi
 
-cp .env-api kernelci/kernelci-api/.env
-cp api-configs.yaml kernelci/kernelci-core/config/core/
-cp kernelci-cli.toml kernelci/kernelci-core/kernelci.toml
+cp config/.env-api kernelci/kernelci-api/.env
+cp config/api-configs.yaml kernelci/kernelci-core/config/core/
+cp config/kernelci-cli.toml kernelci/kernelci-core/kernelci.toml
 
 sed -i "s/#SECRET_KEY=/SECRET_KEY=${API_SECRET_KEY}/" kernelci/kernelci-api/.env
 
@@ -36,14 +25,14 @@ ${SUDO} chmod -R 0777 docker/storage/data
 ${SUDO} chmod -R 0777 docker/redis/data
 # enable ssh and storage nginx
 sed -i 's/^#  /  /' docker-compose.yaml
-if [ -f ../../ssh.key ]; then
+if [ -f ../../config/out/ssh.key ]; then
     echo "ssh.key already exists"
 else
     # generate non-interactively ssh key to ssh.key
-    ssh-keygen -t rsa -b 4096 -N "" -f ../../ssh.key
+    ssh-keygen -t rsa -b 4096 -N "" -f ../../config/out/ssh.key
 fi
 # get public key and add to docker/ssh/user-data/authorized_keys
-cat ../../ssh.key.pub > docker/ssh/user-data/authorized_keys
+cat ../../config/out/ssh.key.pub > docker/ssh/user-data/authorized_keys
 
 # down, just in case old containers are running
 docker compose down
@@ -77,8 +66,8 @@ expect ../../helpers/scripts_setup_admin_user.exp "${YOUR_EMAIL}" "${ADMIN_PASSW
 
 cd ../kernelci-core
 echo "Issuing token for admin user"
-expect ../../helpers/kci_user_token_admin.exp "${ADMIN_PASSWORD}" > ../../admin-token.txt
-ADMIN_TOKEN=$(cat ../../admin-token.txt | tr -d '\r\n')
+expect ../../helpers/kci_user_token_admin.exp "${ADMIN_PASSWORD}" > ../../config/out/admin-token.txt
+ADMIN_TOKEN=$(cat ../../config/out/admin-token.txt | tr -d '\r\n')
 
 echo "[kci.secrets]
 api.\"docker-host\".token = \"$ADMIN_TOKEN\" 
