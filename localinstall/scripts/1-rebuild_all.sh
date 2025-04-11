@@ -4,6 +4,14 @@
 
 set -e
 
+function fail_with_error() {
+    echo "ERROR: $1"
+    exit 1
+}
+
+set -e
+trap 'fail_with_error "Command failed at line $LINENO"' ERR
+
 # i am groot?
 if [ $(id -u) -ne 0 ]; then
     SUDO=sudo
@@ -95,10 +103,10 @@ echo Build docker images: pipeline
 ./kci docker $args kernelci pipeline
 echo Build docker images: lava-callback
 ./kci docker $args kernelci lava-callback
-# echo Build docker images: clang-17+kselftest+kernelci for x86
-# ./kci docker $args clang-17 kselftest kernelci --arch x86
-# echo Build docker images: gcc-12+kselftest+kernelci for x86
-# ./kci docker $args gcc-12 kselftest kernelci --arch x86
-# echo Build docker images: gcc-12+kselftest+kernelci for arm64
-# ./kci docker $args gcc-12 kselftest kernelci --arch arm64
+echo Build docker images: clang-17+kselftest+kernelci for x86
+./kci docker $args clang-17 kselftest kernelci --arch x86
+echo Build docker images: gcc-12+kselftest+kernelci for x86
+./kci docker $args gcc-12 kselftest kernelci --arch x86
+echo Build docker images: gcc-12+kselftest+kernelci for arm64
+./kci docker $args gcc-12 kselftest kernelci --arch arm64
 
