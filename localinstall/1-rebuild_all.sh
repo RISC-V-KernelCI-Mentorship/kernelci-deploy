@@ -88,17 +88,11 @@ build_args="--build-arg pipeline_rev=$pipeline_rev --build-arg core_rev=$core_re
 px_arg='--prefix=local/staging-'
 args="build --verbose $px_arg $build_args"
 echo Build docker images: api
-./kci docker $args kernelci api --version="$api_rev"
+./kci docker $args kernelci api
 echo Build docker images: pipeline
-./kci docker $args kernelci pipeline --version="$pipeline_rev"
+./kci docker $args kernelci pipeline
 echo Build docker images: lava-callback
-./kci docker $args kernelci lava-callback --version="$pipeline_rev"
-echo Tag docker image of api to latest
-docker tag local/staging-kernelci:api-$api_rev local/staging-kernelci:api
-echo Tag docker image of pipeline to latest
-docker tag local/staging-kernelci:pipeline-$pipeline_rev local/staging-kernelci:pipeline
-echo Tag docker image of lava-callback to latest
-docker tag local/staging-kernelci:lava-callback-$pipeline_rev local/staging-kernelci:lava-callback
+./kci docker $args kernelci lava-callback
 echo Build docker images: clang-17+kselftest+kernelci for x86
 ./kci docker $args clang-17 kselftest kernelci --arch x86
 echo Build docker images: gcc-12+kselftest+kernelci for x86
