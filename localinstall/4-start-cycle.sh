@@ -1,6 +1,14 @@
 #!/bin/bash
 . ./main.cfg
 
+function fail_with_error() {
+    echo "ERROR: $1"
+    exit 1
+}
+
+set -e
+trap 'fail_with_error "Command failed at line $LINENO"' ERR
+
 cd kernelci/kernelci-pipeline
 docker compose down
 docker compose up -d
