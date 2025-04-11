@@ -97,4 +97,3 @@ echo Build docker images: lava-callback
 # echo Build docker images: gcc-12+kselftest+kernelci for arm64
 # ./kci docker $args gcc-12 kselftest kernelci --arch arm64
 
-
