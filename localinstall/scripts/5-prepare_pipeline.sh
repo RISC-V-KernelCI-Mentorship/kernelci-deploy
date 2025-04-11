@@ -4,14 +4,6 @@
 
 set -e
 
-function fail_with_error() {
-    echo "ERROR: $1"
-    exit 1
-}
-
-set -e
-trap 'fail_with_error "Command failed at line $LINENO"' ERR
-
 ## This is hacky way of inserting things that probably will outlive trivial patch after changes
 # find line number with storage:
 function append_storage() {
