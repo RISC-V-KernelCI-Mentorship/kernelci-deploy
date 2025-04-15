@@ -24,6 +24,7 @@ mkdir -p docker/redis/data
 ${SUDO} chmod -R 0777 docker/storage/data
 ${SUDO} chmod -R 0777 docker/redis/data
 # enable ssh and storage nginx
+mkdir -p ../../config/out
 sed -i 's/^#  /  /' docker-compose.yaml
 if [ -f ../../config/out/ssh.key ]; then
     echo "ssh.key already exists"
