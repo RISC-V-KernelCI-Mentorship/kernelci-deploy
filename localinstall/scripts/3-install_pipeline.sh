@@ -71,8 +71,7 @@ sed -i 's/kernelci\/staging-/local\/staging-/g' kernelci/kernelci-pipeline/confi
 # check if kernelci/kernelci-pipeline/config/kernelci.toml
 # has [trigger] and then force = 1
 # this will force builds on each restart
-grep -q "force = 1" kernelci/kernelci-pipeline/config/kernelci.toml
-if [ $? -ne 0 ]; then
+if ! grep -q "force = 1" kernelci/kernelci-pipeline/config/kernelci.toml; then
     sed -i '/\[trigger\]/a force = 1' kernelci/kernelci-pipeline/config/kernelci.toml
 fi
 
