@@ -45,4 +45,4 @@ RUN usermod -aG sudo kernelci && \
 USER kernelci
 WORKDIR /home/kernelci
 
-CMD ["/bin/bash", "./scripts/run.sh"]
+ENTRYPOINT ["/bin/bash", "./scripts/run.sh"]

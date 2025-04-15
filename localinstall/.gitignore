@@ -4,3 +4,4 @@ config/out/*
 .cache
 .local
 .docker
+.bash_history

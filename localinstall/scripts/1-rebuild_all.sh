@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ..
-
 . ./config/main.cfg
 
 set -e
