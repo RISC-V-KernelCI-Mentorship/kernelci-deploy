@@ -48,7 +48,8 @@ echo "Running $IMAGE_NAME"
 docker run --rm \
   --name kernelci-deployer \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v "$(pwd)":/home/kernelci \
+  -v "$(pwd)":"$(pwd)" \
+  --workdir "$(pwd)" \
   --group-add $(stat -c '%g' /var/run/docker.sock) \
   --network host \
   $IMAGE_NAME

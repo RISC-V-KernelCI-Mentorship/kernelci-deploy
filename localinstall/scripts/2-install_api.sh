@@ -6,12 +6,6 @@ cd ..
 
 set -e
 
-cd ..
-
-. ./config/main.cfg
-
-set -e
-
 # i am groot?
 if [ $(id -u) -ne 0 ]; then
     SUDO=sudo
@@ -22,11 +16,8 @@ fi
 cp config/.env-api kernelci/kernelci-api/.env
 cp config/api-configs.yaml kernelci/kernelci-core/config/core/
 cp config/kernelci-cli.toml kernelci/kernelci-core/kernelci.toml
-<<<<<<< HEAD
 
 sed -i "s/#SECRET_KEY=/SECRET_KEY=${API_SECRET_KEY}/" kernelci/kernelci-api/.env
-=======
->>>>>>> feat/improve-local-deploy
 
 cd kernelci/kernelci-api
 mkdir -p docker/redis/data
