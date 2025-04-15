@@ -2,8 +2,6 @@
 
 cd ..
 
-cd ..
-
 . ./config/main.cfg
 
 set -e
@@ -69,11 +67,7 @@ expect ../../helpers/scripts_setup_admin_user.exp "${YOUR_EMAIL}" "${ADMIN_PASSW
 cd ../kernelci-core
 echo "Issuing token for admin user"
 expect ../../helpers/kci_user_token_admin.exp "${ADMIN_PASSWORD}" > ../../config/out/admin-token.txt
-<<<<<<< HEAD
 ADMIN_TOKEN=$(cat ../../config/out/admin-token.txt | tr -d '\r\n')
-=======
-ADMIN_TOKEN=$(cat ../../config/out/admin-token.txt)
->>>>>>> feat/improve-local-deploy
 
 echo "[kci.secrets]
 api.\"docker-host\".token = \"$ADMIN_TOKEN\" 
