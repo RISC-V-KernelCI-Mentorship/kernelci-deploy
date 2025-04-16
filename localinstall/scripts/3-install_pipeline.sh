@@ -51,7 +51,6 @@ sed -i "s|- 'data/ssh/|- '$PIPELINE_PWD/data/ssh/|g" config/pipeline.yaml
 sed -i "s|- '/data/kernelci-deploy-checkout/kernelci-pipeline/data/ssh/|- '$PIPELINE_PWD/data/ssh/|g" config/pipeline.yaml
 sed -i "s|- '/data/kernelci-deploy-checkout/kernelci-pipeline/data/output/|- '$PIPELINE_PWD/data/output/|g" config/pipeline.yaml
 
-chmod -R 777 data/output
 chmod 777 data/ssh
 cp ../../config/out/ssh.key data/ssh/id_rsa_tarball
 chmod 600 data/ssh/id_rsa_tarball
