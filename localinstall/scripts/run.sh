@@ -27,7 +27,12 @@ fi
 
 case "$ACTION" in
   deploy)
-    rm -f kernelci/.done
+    # Check if kernelci directory exists
+    if [ -f kernelci/.done ]; then
+      echo "Stopping previous deployment..."
+      $0 stop
+    fi
+    sudo rm -rf kernelci
     echo "Starting deployment sequence, this may take a while..."
     ./scripts/1-rebuild_all.sh
     ./scripts/2-prepare_api.sh
