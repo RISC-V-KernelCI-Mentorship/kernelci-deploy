@@ -31,8 +31,8 @@ i=0
 while [ $i -lt 5 ]; do
     ANSWER=$(curl -s http://localhost:10070/api/v0.2/workers/)
     # must contain "hostname": "lava-slave" and "state": "Online"
-    if echo "$ANSWER" | jq -e '.results[] | select(.hostname == "lava-slave" and .state == "Online")' >/dev/null; then
-        echo "LAVA worker 'lava-slave' is online"
+    if echo "$ANSWER" | jq -e '.results[] | select(.hostname == "lava-slave-local" and .state == "Online")' >/dev/null; then
+        echo "LAVA worker 'lava-slave-local' is online"
         break
     else
         echo "LAVA worker not ready yet, retrying..."

@@ -1,6 +1,6 @@
 ---
 masters:
-  - name: lava-master
+  - name: lava-master-local
     host: local
     users:
       - name: ${LAVA_USER}
@@ -15,10 +15,11 @@ masters:
     write_dot_env: True
     webinterface_port: 10070
 slaves:
-  - name: lava-slave
+  - name: lava-slave-local
     host: local
-    remote_master: lava-master
+    remote_master: lava-master-local
     remote_user: ${LAVA_USER}
+    use_docker: true
 
 boards:
   - name: qemu-01
