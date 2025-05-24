@@ -11,7 +11,7 @@ docker compose down
 docker compose up -d
 
 echo "Waiting for LAVA master to be up"
-sleep 5
+sleep 15
 # loop until LAVA master is up, try 5 times
 i=0
 while [ $i -lt 5 ]; do
@@ -25,20 +25,19 @@ while [ $i -lt 5 ]; do
 done
 
 echo "Waiting for LAVA worker to be up"
-sleep 5
+sleep 10
 # loop until LAVA worker is up, try 5 times
 i=0
 while [ $i -lt 5 ]; do
     ANSWER=$(curl -s http://localhost:10070/api/v0.2/workers/)
     # must contain "hostname": "lava-slave" and "state": "Online"
-    if echo "$ANSWER" | grep -q '"hostname": "lava-slave"' && echo "$ANSWER" | grep -q '"state": "Online"'; then
+    if echo "$ANSWER" | jq -e '.results[] | select(.hostname == "lava-slave" and .state == "Online")' >/dev/null; then
         echo "LAVA worker 'lava-slave' is online"
         break
     else
-        echo "LAVA worker not ready yet"
+        echo "LAVA worker not ready yet, retrying..."
         i=$((i+1))
         sleep 5
     fi
 done
 
-# note: those two services must be reachable from pipeline for callback

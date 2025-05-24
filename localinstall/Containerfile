@@ -45,7 +45,8 @@ RUN usermod -aG sudo kernelci && \
 # Install secondary dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    gettext 
+    gettext \
+    jq
 
 USER kernelci
 WORKDIR /home/kernelci

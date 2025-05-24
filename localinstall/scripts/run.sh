@@ -38,10 +38,10 @@ case "$ACTION" in
     ./scripts/2-prepare_api.sh
     ./scripts/3-start_api.sh
     ./scripts/4-set_api_admin.sh
-    ./scripts/5-prepare_pipeline.sh
-    ./scripts/6-start_pipeline.sh
-    ./scripts/7-install_lava.sh
-    ./scripts/8-start_lava.sh
+    ./scripts/5-prepare_lava.sh
+    ./scripts/6-start_lava.sh
+    ./scripts/7-prepare_pipeline.sh
+    ./scripts/8-start_pipeline.sh
     echo "You can view now logs of containers using docker logs -f <container_id> or docker-compose logs -f in each directory"
     echo "Also you can do docker ps to see running containers, and in case of ongoing builds, you can view their logs too by docker logs -f <container_id>"
     echo "API viewer available at http://localhost:8001/viewer"
@@ -55,8 +55,8 @@ case "$ACTION" in
     check_deploy
     echo "Starting deployment"
     ./scripts/3-start_api.sh
-    ./scripts/6-start_pipeline.sh
-    ./scripts/8-start_lava.sh
+    ./scripts/6-start_lava.sh
+    ./scripts/8-start_pipeline.sh
     ;;
   stop)
     check_deploy

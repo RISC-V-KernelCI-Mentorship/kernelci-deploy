@@ -17,3 +17,7 @@ cd kernelci/lava-docker
 
 # generate docker-compose file
 ./lavalab-gen.sh
+
+# Build the Docker images
+cd output/local
+docker compose build

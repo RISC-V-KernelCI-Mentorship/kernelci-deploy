@@ -5,13 +5,15 @@ masters:
     users:
       - name: ${LAVA_USER}
         password: ${LAVA_PASSWORD}
-        token: ${LAVA_TOKEN}
+        token: admin-token
         superuser: true
         staff: true
     tokens:
       - username: ${LAVA_USER}
         token: ${LAVA_TOKEN}
         description: ${LAVA_TOKEN_DESCRIPTION}
+    write_dot_env: True
+    webinterface_port: 10070
 slaves:
   - name: lava-slave
     host: local

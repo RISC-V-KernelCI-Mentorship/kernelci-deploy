@@ -91,3 +91,15 @@ TOKEN=$(kernelci/kernelci-pipeline/tools/jwt_generator.py --toml kernelci/kernel
 --email ${YOUR_EMAIL} --permissions checkout,testretry,patchset | grep "JWT token:" | cut -d' ' -f3)
 echo $TOKEN > config/out/kci-dev-token.txt
 echo "kci-dev token saved to config/out/kci-dev-token.txt"
+
+# set LAVA Token
+# Check if [runtime.lava-local] section exists, if not add it
+if ! grep -q "\[runtime\.lava-local\]" kernelci/kernelci-pipeline/config/kernelci.toml; then
+  echo -e "[runtime.lava-local]\nruntime_token = \"$LAVA_TOKEN\"\ncallback_token = \"$LAVA_TOKEN\"" >> kernelci/kernelci-pipeline/config/kernelci.toml
+else
+  # Update existing tokens
+  sed -i '/\[runtime\.lava-local\]/,/callback_token/{
+    s/runtime_token = ".*"/runtime_token = "'$LAVA_TOKEN'"/;
+    s/callback_token = ".*"/callback_token = "'$LAVA_TOKEN'"/;
+  }' kernelci/kernelci-pipeline/config/kernelci.toml
+fi
