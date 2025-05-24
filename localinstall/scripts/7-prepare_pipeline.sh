@@ -71,24 +71,13 @@ if ! grep -q "force = 1" kernelci/kernelci-pipeline/config/kernelci.toml; then
     sed -i '/\[trigger\]/a force = 1' kernelci/kernelci-pipeline/config/kernelci.toml
 fi
 
-# remove from pipeline yaml all build_configs:
-sed -i '/build_configs:/,$d' kernelci/kernelci-pipeline/config/pipeline.yaml
-# add 
-cat <<EOF >> kernelci/kernelci-pipeline/config/pipeline.yaml
-build_configs:
-  kernelci_staging-stable:
-    tree: kernelci
-    branch: 'staging-stable'
-EOF
-
 #create .env
-#KCI_STORAGE_CREDENTIALS=L0CALT0KEN
-#KCI_API_TOKEN=
-#API_TOKEN=
 API_TOKEN=$(cat config/out/admin-token.txt)
 echo "KCI_STORAGE_CREDENTIALS=/home/kernelci/data/ssh/id_rsa_tarball" > .env
 echo "KCI_API_TOKEN=${API_TOKEN}" >> .env
 echo "API_TOKEN=${API_TOKEN}" >> .env
+echo "KCI_INSTANCE=${KCI_INSTANCE}" >> .env
+echo "KCI_INSTANCE_CALLBACK=${KCI_INSTANCE_CALLBACK}" >> .env
 cp .env kernelci/kernelci-pipeline/.docker-env
 mv .env kernelci/kernelci-pipeline/.env
 
@@ -101,3 +90,15 @@ TOKEN=$(kernelci/kernelci-pipeline/tools/jwt_generator.py --toml kernelci/kernel
 --email ${YOUR_EMAIL} --permissions checkout,testretry,patchset | grep "JWT token:" | cut -d' ' -f3)
 echo $TOKEN > config/out/kci-dev-token.txt
 echo "kci-dev token saved to config/out/kci-dev-token.txt"
+
+# set LAVA Token
+# Check if [runtime.lava-local] section exists, if not add it
+if ! grep -q "\[runtime\.lava-local\]" kernelci/kernelci-pipeline/config/kernelci.toml; then
+  echo -e "[runtime.lava-local]\nruntime_token = \"$LAVA_TOKEN\"\ncallback_token = \"$LAVA_TOKEN\"" >> kernelci/kernelci-pipeline/config/kernelci.toml
+else
+  # Update existing tokens
+  sed -i '/\[runtime\.lava-local\]/,/callback_token/{
+    s/runtime_token = ".*"/runtime_token = "'$LAVA_TOKEN'"/;
+    s/callback_token = ".*"/callback_token = "'$LAVA_TOKEN'"/;
+  }' kernelci/kernelci-pipeline/config/kernelci.toml
+fi
