@@ -72,13 +72,12 @@ if ! grep -q "force = 1" kernelci/kernelci-pipeline/config/kernelci.toml; then
 fi
 
 #create .env
-#KCI_STORAGE_CREDENTIALS=L0CALT0KEN
-#KCI_API_TOKEN=
-#API_TOKEN=
 API_TOKEN=$(cat config/out/admin-token.txt)
 echo "KCI_STORAGE_CREDENTIALS=/home/kernelci/data/ssh/id_rsa_tarball" > .env
 echo "KCI_API_TOKEN=${API_TOKEN}" >> .env
 echo "API_TOKEN=${API_TOKEN}" >> .env
+echo "KCI_INSTANCE=${KCI_INSTANCE}" >> .env
+echo "KCI_INSTANCE_CALLBACK=${KCI_INSTANCE_CALLBACK}" >> .env
 cp .env kernelci/kernelci-pipeline/.docker-env
 mv .env kernelci/kernelci-pipeline/.env
 
