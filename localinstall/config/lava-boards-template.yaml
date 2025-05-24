@@ -1,0 +1,24 @@
+---
+masters:
+  - name: lava-master
+    host: local
+    users:
+      - name: ${LAVA_USER}
+        password: ${LAVA_PASSWORD}
+        token: ${LAVA_TOKEN}
+        superuser: true
+        staff: true
+    tokens:
+      - username: ${LAVA_USER}
+        token: ${LAVA_TOKEN}
+        description: ${LAVA_TOKEN_DESCRIPTION}
+slaves:
+  - name: lava-slave
+    host: local
+    remote_master: lava-master
+    remote_user: ${LAVA_USER}
+
+boards:
+  - name: qemu-01
+    type: qemu
+
