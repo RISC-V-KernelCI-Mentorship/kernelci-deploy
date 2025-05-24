@@ -71,16 +71,6 @@ if ! grep -q "force = 1" kernelci/kernelci-pipeline/config/kernelci.toml; then
     sed -i '/\[trigger\]/a force = 1' kernelci/kernelci-pipeline/config/kernelci.toml
 fi
 
-# remove from pipeline yaml all build_configs:
-sed -i '/build_configs:/,$d' kernelci/kernelci-pipeline/config/pipeline.yaml
-# add 
-cat <<EOF >> kernelci/kernelci-pipeline/config/pipeline.yaml
-build_configs:
-  kernelci_staging-stable:
-    tree: kernelci
-    branch: 'staging-stable'
-EOF
-
 #create .env
 #KCI_STORAGE_CREDENTIALS=L0CALT0KEN
 #KCI_API_TOKEN=
