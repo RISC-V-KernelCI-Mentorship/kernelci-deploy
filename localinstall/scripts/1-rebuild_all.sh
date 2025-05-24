@@ -38,6 +38,13 @@ if [ ! -d kernelci ]; then
     git fetch origin
     git checkout origin/$KCI_PIPELINE_BRANCH
     cd ..
+
+    echo Clone LAVA repo
+    git clone $KCI_LAVA_REPO
+    cd lava-docker
+    git fetch origin
+    git checkout origin/$KCI_LAVA_BRANCH
+    cd ..
 else
     cd kernelci
 fi

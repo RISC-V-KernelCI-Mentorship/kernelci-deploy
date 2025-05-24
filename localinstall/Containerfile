@@ -42,6 +42,12 @@ RUN groupadd -g ${GROUP_ID} kernelci || true && \
 RUN usermod -aG sudo kernelci && \
     echo "kernelci ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+# Install secondary dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gettext \
+    jq
+
 USER kernelci
 WORKDIR /home/kernelci
 
